@@ -1,78 +1,75 @@
 // src/api/api.js
 import axios from 'axios';
 
-const API = axios.create({
-  baseURL: 'http://localhost:8000/', // ajusta a tu backend real
+const API_URL = 'http://127.0.0.1:8000'; // Elimina la barra final para consistencia
+
+const api = axios.create({
+  baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json', // Default para todas las peticiones
   },
-  withCredentials: true, // opcional, si usas cookies
 });
 
-// Interceptor para agregar el token automáticamente
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token'); // o sessionStorage
+// Interceptor para requests
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// Interceptor para manejar errores como 401 globalmente
-API.interceptors.response.use(
+// Interceptor para responses (manejo centralizado de errores)
+api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
+      localStorage.removeItem('token');
       window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
-/*
-export default {
-  /*
-  // 🔐 AUTENTICACIÓN
-  login: (data) => API.post('/auth/login', data),
-  register: (data) => API.post('/auth/register', data),
-  logout: () => API.post('/auth/logout'),
+export const authApi = {
+  login: async (email, password) => {
+    const formData = new URLSearchParams();
+    formData.append('username', email);
+    formData.append('password', password);
+    formData.append('grant_type', 'password');
 
-  // 👤 USUARIOS
-  getUsuarios: () => API.get('/usuarios'),
-  getUsuario: (id) => API.get(`/usuarios/${id}`),
-  createUsuario: (data) => API.post('/usuarios', data),
-  updateUsuario: (id, data) => API.put(`/usuarios/${id}`, data),
-  deleteUsuario: (id) => API.delete(`/usuarios/${id}`),
+    try {
+      const response = await api.post('/auth/token', formData, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded', // Override solo para login
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.detail || 'Error de autenticación');
+    }
+  },
 
-  // 📚 LIBROS
-  getLibros: () => API.get('/libros'),
-  getLibro: (id) => API.get(`/libros/${id}`),
-  createLibro: (data) => API.post('/libros', data),
-  updateLibro: (id, data) => API.put(`/libros/${id}`, data),
-  deleteLibro: (id) => API.delete(`/libros/${id}`),
+  register: async (userData) => {
+    try {
+      // Asegura que el ID sea número (requerimiento de tu backend)
+      const payload = {
+        ...userData,
+        id: parseInt(userData.id),
+      };
 
-  // 📚 EJEMPLARES
-  getEjemplares: () => API.get('/ejemplares'),
-  createEjemplar: (data) => API.post('/ejemplares', data),
+      const response = await api.post('/auth/', payload);
+      return response.data;
+    } catch (error) {
+      // Manejo específico para errores 422 (validación)
+      if (error.response?.status === 422) {
+        const details = error.response.data.detail;
+        const messages = details.map(d => `${d.loc[1]}: ${d.msg}`).join('\n');
+        throw new Error(`Error de validación:\n${messages}`);
+      }
+      throw new Error(error.response?.data?.detail || 'Error en el registro');
+    }
+  },
+};
 
-  // 🤝 RECOMENDACIONES
-  getRecomendaciones: (idLibro) => API.get(`/libros/${idLibro}/recomendaciones`),
-  setRecomendaciones: (idLibro, data) => API.post(`/libros/${idLibro}/recomendaciones`, data),
-
-  // 📖 PRÉSTAMOS
-  solicitarPrestamo: (data) => API.post('/prestamos/solicitar', data),
-  aprobarPrestamo: (id, data) => API.put(`/prestamos/${id}/aprobar`, data),
-  devolverPrestamo: (id) => API.post(`/prestamos/${id}/devolver`),
-  getPrestamosActivos: () => API.get('/prestamos/activos'),
-  getHistorialPrestamos: () => API.get('/prestamos/historial'),
-  getMisPrestamos: () => API.get('/prestamos/mis'),
-
-  // ⚠️ MULTAS
-  getMultas: () => API.get('/multas'),
-  createMulta: (data) => API.post('/multas', data),
-  updateMulta: (id, data) => API.put(`/multas/${id}`, data),
-  deleteMulta: (id) => API.delete(`/multas/${id}`),
-
-  // 📊 REPORTES
-  getReportes: () => API.get('/reportes'),
-};*/
+export default api;
