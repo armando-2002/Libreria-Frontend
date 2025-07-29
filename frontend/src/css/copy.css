@@ -1,0 +1,217 @@
+/* Estilos generales del contenedor */
+.loans-container {
+ display: flex;
+  flex-direction: column; /* Asegura disposición vertical */
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 20px 0 0 0; /* 20px solo en la parte superior */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+}
+
+/* Botón de volver */
+.back-button {
+  background-color: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.back-button:hover {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+}
+
+/* Título */
+.loans-title {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.loans-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, #3498db, #9b59b6);
+  border-radius: 3px;
+}
+
+/* Formulario de búsqueda */
+.copy-search-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.copy-search-input {
+ flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc; /* Borde más claro */
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background-color: white; /* Fondo blanco */
+  color: #333; /* Texto oscuro */
+}
+
+.copy-search-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.search-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.search-button:hover {
+  background-color: #2980b9;
+}
+
+.search-button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* Mensajes de estado */
+.error-message {
+  background-color: #feeaea;
+  color: #dc3545;
+  border: 1px solid #f5c6cb;
+  padding: 1rem;
+  border-radius: 5px;
+  margin: 1rem auto;
+  text-align: center;
+  font-weight: 500;
+  max-width: 600px;
+}
+
+.loading-text, .no-data {
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Grid de préstamos */
+.loans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Tarjetas de préstamo */
+.loan-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border-top: 3px solid #9b59b6;
+  position: relative;
+  overflow: hidden;
+}
+
+.loan-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.loan-card h3 {
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.loan-card h3::before {
+  content: "🔍";
+  margin-right: 0.5rem;
+  font-size: 1.1em;
+}
+
+.loan-card p {
+  margin: 0.75rem 0;
+  color: #555;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.loan-card strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Animación de carga */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.loading-text {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loans-container {
+    padding: 1rem;
+  }
+  
+  .copy-search-form {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .loans-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .loans-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .copy-search-input, .search-button {
+    padding: 0.65rem 1rem;
+  }
+}

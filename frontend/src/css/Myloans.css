@@ -1,0 +1,127 @@
+.loans-container {
+  display: flex;
+  min-height: 100vh;
+    flex-direction: column;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+}
+/* Estilos generales del contenedor */
+
+
+.loans-container h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+/* Mensajes de estado */
+.auth-message, .error-message, .success-message {
+  padding: 1rem;
+  border-radius: 5px;
+  margin: 1rem 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.auth-message {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #e9ecef;
+}
+
+.error-message {
+  background-color: #feeaea;
+  color: #dc3545;
+  border: 1px solid #f5c6cb;
+}
+
+.success-message {
+  background-color: #e8f7ee;
+  color: #28a745;
+  border: 1px solid #c3e6cb;
+}
+
+/* Grid de préstamos */
+.loans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Tarjetas de préstamo */
+.loan-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.loan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.loan-card h3 {
+  color: #3498db;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.loan-card p {
+  margin: 0.5rem 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+.loan-card strong {
+  color: #2c3e50;
+}
+
+/* Botón de devolver */
+.return-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 1rem;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.return-button:hover {
+  background-color: #2980b9;
+}
+
+.return-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+/* Mensaje cuando no hay préstamos */
+.loans-container > p {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loans-container {
+    padding: 1rem;
+  }
+  
+  .loans-grid {
+    grid-template-columns: 1fr;
+  }
+}

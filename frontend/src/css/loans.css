@@ -1,0 +1,155 @@
+/* Estilos generales del contenedor */
+.loans-container {
+ display: flex;
+  min-height: 100vh;
+    flex-direction: column;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+}
+
+.loans-container h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Mensajes de estado */
+.auth-message, .error-message {
+  padding: 1rem;
+  border-radius: 5px;
+  margin: 1rem auto;
+  text-align: center;
+  font-weight: 500;
+  max-width: 600px;
+}
+
+.auth-message {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #e9ecef;
+}
+
+.error-message {
+  background-color: #feeaea;
+  color: #dc3545;
+  border: 1px solid #f5c6cb;
+}
+
+/* Grid de préstamos históricos */
+.loans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Tarjetas de préstamo histórico */
+.loan-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border-left: 4px solid #3498db;
+  position: relative;
+  overflow: hidden;
+}
+
+.loan-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.loan-card h3 {
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.loan-card h3::before {
+  content: "📖";
+  margin-right: 0.5rem;
+  font-size: 1.1em;
+}
+
+.loan-card p {
+  margin: 0.75rem 0;
+  color: #555;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.loan-card strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Estado del préstamo (podrías añadir clases según estado) */
+.loan-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  background: #3498db;
+  opacity: 0.2;
+}
+
+/* Mensaje cuando no hay préstamos */
+.loans-container > p {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Indicador de carga */
+.loans-container > p:empty {
+  background: transparent;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loans-container {
+    padding: 1rem;
+  }
+  
+  .loans-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .loans-container h1 {
+    font-size: 1.5rem;
+    white-space: nowrap;
+  }
+}
+
+/* Animación de carga */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.loans-container > p {
+  animation: pulse 1.5s infinite ease-in-out;
+}
